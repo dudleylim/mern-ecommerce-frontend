@@ -5,20 +5,30 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import ProductContext from '../context/ProductContext';
+import CartContext from '../context/CartContext'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
 const Product = () => {
-    const { product } = useParams();
-    const [currentProduct, setCurrentProduct] = useState(null);
+    const { product } = useParams(); // productId of product in url
     const { products } = useContext(ProductContext);
-    const [cartAmount, setCartAmount] = useState(0);
+    const { dispatch } = useContext(CartContext);
+    const [currentProduct, setCurrentProduct] = useState(null);
+    const [cartAmount, setCartAmount] = useState(1);
 
     useEffect(() => {
         setCurrentProduct(products.find(prod => prod.id === Number(product)))
     }, [product, products])
 
     const addCart = () => {
-        console.log('cart')
+        const order = {
+            ...currentProduct,
+            amount: cartAmount
+        }
+
+        dispatch({
+            type: 'ADD_CART',
+            payload: order
+        })
     }
 
     const addWishlist = () => {
@@ -38,7 +48,7 @@ const Product = () => {
                     <h3 className='font-bold text-xl'>{currentProduct.price}</h3>
                     <p>{currentProduct.description}</p>
                     <div className='flex flex-row align-middle w-1/2'>
-                        <button  className='p-3 border border-red-600 border-r-0' onClick={() => {cartAmount > 0 && setCartAmount(cartAmount - 1)}}><AiOutlineMinus /></button>
+                        <button  className='p-3 border border-red-600 border-r-0' onClick={() => {cartAmount > 1 && setCartAmount(cartAmount - 1)}}><AiOutlineMinus /></button>
                         <input className='grow text-center bg-white'  type="text" disabled={true} value={cartAmount} />
                         <button className='p-3 border border-green-600 border-l-0'  onClick={() => {setCartAmount(cartAmount + 1)}}><AiOutlinePlus /></button>
                     </div>
