@@ -4,14 +4,17 @@ import './index.css';
 import App from './App';
 import { ProductContextProvider } from './context/ProductContext';
 import { CartContextProvider } from './context/CartContext';
+import { UserContextProvider } from './context/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ProductContextProvider>
-      <CartContextProvider>
-        <App />
-      </CartContextProvider>
-    </ProductContextProvider>
+    <UserContextProvider>
+      <ProductContextProvider>
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
+      </ProductContextProvider>
+    </UserContextProvider>
   </React.StrictMode>
 );

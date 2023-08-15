@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useContext } from 'react'
+import UserContext from '../context/UserContext'
 
 const Navbar = () => {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -45,12 +49,24 @@ const Navbar = () => {
                     <div className='grow text-center'>Loading...</div>
                 </> :
                 <>
-                    <Link to='/' className='grow text-center hover:bg-slate-100 transition-colors'>Home</Link>
-                    {categories.map((category) => {
-                        return <Link to={`/products/${category.id}`} key={category.id} className='grow text-center hover:bg-slate-100 transition-colors'>{category.name}</Link>
-                    })}
-                    <Link to='/about' className='grow text-center hover:bg-slate-100 transition-colors'>About Us</Link>
-                    <Link to='/contact' className='grow text-center hover:bg-slate-100 transition-colors'>Contact</Link>
+                    {
+                        user &&
+                        <>
+                            <Link to='/' className='grow text-center hover:bg-slate-100 transition-colors'>Home</Link>
+                            {categories.map((category) => {
+                                return <Link to={`/products/${category._id}`} key={category._id} className='grow text-center hover:bg-slate-100 transition-colors'>{category.name}</Link>
+                            })}
+                            <Link to='/about' className='grow text-center hover:bg-slate-100 transition-colors'>About Us</Link>
+                            <Link to='/contact' className='grow text-center hover:bg-slate-100 transition-colors'>Contact</Link>
+                        </>
+                    }
+                    {
+                        !user &&
+                        <>
+                            <Link to='/login' className='grow text-center hover:bg-slate-100 transition-colors'>Login</Link>
+                            <Link to='/signup' className='grow text-center hover:bg-slate-100 transition-colors'>Signup</Link>
+                        </>
+                    }
                 </>
             }
         </nav>

@@ -1,8 +1,9 @@
 import React from 'react'
+import UserForm from '../components/UserForm'
 
 const Signup = () => {
     return (
-        <div>Signup</div>
+        <UserForm formType={'signup'} />
     )
 }
 

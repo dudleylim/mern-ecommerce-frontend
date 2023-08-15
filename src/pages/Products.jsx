@@ -15,7 +15,7 @@ const Products = () => {
         let tempProducts;
         if (category) {
             tempProducts = products.filter((product) => {
-                return product.categoryId === Number(category)
+                return product.categoryId === category
             })
         } else {
             tempProducts = products;
@@ -24,9 +24,9 @@ const Products = () => {
     }, [category, products])
 
     return (
-        <section className='col-[content] mx-auto flex flex-col justify-center md:grid md:justify-normal md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-flow-row gap-4 w-full'>
+        <section className='py-8 col-[content] mx-auto flex flex-col justify-center md:grid md:justify-normal md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-flow-row gap-14 w-full'>
             {filteredProducts && filteredProducts.map((product) => {
-                return <ProductItem key={product.id} props={product}></ProductItem>
+                return <ProductItem key={product._id} props={product}></ProductItem>
             })}
         </section>
     )
